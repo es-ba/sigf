@@ -5,6 +5,10 @@ import {ContextRoles} from "./types-sigf";
 import {defConfig} from "./def-config"
 
 import {usuarios} from "./table-usuarios";
+import {jurisdicciones} from "./table-jurisdicciones";
+import {indicadores} from "./table-indicadores";
+import {jur_ind} from "./table-jur_ind";
+import {matriz_jur_ind} from "./table-matriz_jur_ind";
 import {parametros} from "./table-parametros";
 
 import { Context, Request, MenuDefinition } from "backend-plus";
@@ -12,6 +16,7 @@ import { Context, Request, MenuDefinition } from "backend-plus";
 export type Constructor<T> = new(...args: any[]) => T;
 export function emergeAppsigf<T extends Constructor<backendPlus.AppBackend>>(Base:T){
   return class Appsigf extends Base{
+    private jurisdicciones:any[];
     constructor(...args:any[]){ 
         super(args); 
     }
@@ -23,6 +28,7 @@ export function emergeAppsigf<T extends Constructor<backendPlus.AppBackend>>(Bas
     }
     postConfig(){
         super.postConfig();
+        this.leerJurisdiccionesActivas();
     }
     configStaticConfig(){
         super.configStaticConfig();
@@ -57,6 +63,14 @@ export function emergeAppsigf<T extends Constructor<backendPlus.AppBackend>>(Bas
         var menus:backendPlus.MenuInfoBase[]=[];
         if(context.es.gabinete){
             menus.push(
+                {menuType:'menu', name:'preparacion', label:'preparación', menuContent:[
+                    {menuType:'table', name:'matriz', table:'matriz_jur_ind'},
+                    {menuType:'table', name:'indicadores'},
+                    {menuType:'table', name:'jurisdicciones'},
+                    {menuType:'table', name:'plana', table:'jur_ind'} ,
+                ]},
+            )
+            menus.push(
                 {menuType:'menu', name:'configurar', menuContent:[
                     {menuType:'table', name:'parametros'} ,
                     {menuType:'table', name:'usuario'   } ,
@@ -68,10 +82,20 @@ export function emergeAppsigf<T extends Constructor<backendPlus.AppBackend>>(Bas
         }
         return <backendPlus.MenuDefinition>menu;
     }
+    async leerJurisdiccionesActivas(){
+        var be=this;
+        return await this.inTransaction(null, async function(client){
+            be.jurisdicciones = (await client.query('select * from jurisdicciones where avance is not null order by jurisdiccion').fetchAll()).rows;
+        })
+    }
     prepareGetTables(){
         super.prepareGetTables();
         var newList={
             ...this.getTableDefinition,
+            jurisdicciones,
+            indicadores,
+            jur_ind,
+            matriz_jur_ind,
             usuarios,
             parametros,
         }

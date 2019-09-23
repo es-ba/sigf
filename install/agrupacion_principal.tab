@@ -1,0 +1,7 @@
+agrupacion_principal|denominacion|orden|descripcion|leyes|ocultar|color|icono
+auto0|Indicadores sociodemográficos|10||||#EF9D1B|
+auto1|Autonomía económica|20||||Autonomía económica|
+auto2|Autonomía física|30||||Autonomía fisica|
+auto3|Autonomía en la toma de decisiones|40||||Autonomía en la toma de decisiones|
+auto4|Autonomía política|41|||true|Autonomía política|
+auto5|Indicadores de gestión|50||||Indicadores de gestión|
