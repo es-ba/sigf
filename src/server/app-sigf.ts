@@ -10,13 +10,14 @@ import {indicadores} from "./table-indicadores";
 import {jur_ind} from "./table-jur_ind";
 import {matriz_jur_ind} from "./table-matriz_jur_ind";
 import {parametros} from "./table-parametros";
+import {Client} from "pg-promise-strict";
 
-import { Context, Request, MenuDefinition } from "backend-plus";
+import { Context, Request, MenuDefinition, ProcedureContext, CoreFunctionParameters } from "backend-plus";
 
 export type Constructor<T> = new(...args: any[]) => T;
 export function emergeAppsigf<T extends Constructor<backendPlus.AppBackend>>(Base:T){
   return class Appsigf extends Base{
-    private jurisdicciones:any[];
+    public jurisdicciones:{jurisdiccion:string, nombre:string, avance:string}[]=[];
     constructor(...args:any[]){ 
         super(args); 
     }
@@ -24,6 +25,21 @@ export function emergeAppsigf<T extends Constructor<backendPlus.AppBackend>>(Bas
         super.addSchrödingerServices(mainApp, baseUrl);
     }
     addLoggedServices(){
+        var be=this;
+        this.procedures = this.procedures.map(function(procedureDef){
+            if(procedureDef.action=='table_record_save'){
+                var originalCoreFunction=procedureDef.coreFunction;
+                procedureDef.coreFunction = async function(context:ProcedureContext, parameters:CoreFunctionParameters){
+                    var result = await originalCoreFunction.call(be,context,parameters)
+                    if(parameters.table=='jurisdicciones'){
+                        await be.leerJurisdiccionesActivas(context.client)
+                    }
+                    return result;
+                }
+
+            }
+            return procedureDef;
+        })
         super.addLoggedServices();
     }
     postConfig(){
@@ -82,11 +98,15 @@ export function emergeAppsigf<T extends Constructor<backendPlus.AppBackend>>(Bas
         }
         return <backendPlus.MenuDefinition>menu;
     }
-    async leerJurisdiccionesActivas(){
+    async leerJurisdiccionesActivas(client:Client){
         var be=this;
-        return await this.inTransaction(null, async function(client){
+        if(client){
             be.jurisdicciones = (await client.query('select * from jurisdicciones where avance is not null order by jurisdiccion').fetchAll()).rows;
-        })
+        }else{
+            await this.inTransaction(null, async function(client){
+                await be.leerJurisdiccionesActivas(client);
+            })
+        }
     }
     prepareGetTables(){
         super.prepareGetTables();
