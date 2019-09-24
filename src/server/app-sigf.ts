@@ -8,6 +8,7 @@ import {usuarios} from "./table-usuarios";
 import {jurisdicciones} from "./table-jurisdicciones";
 import {indicadores} from "./table-indicadores";
 import {jur_ind} from "./table-jur_ind";
+import {mi_jur_ind} from "./table-mi_jur_ind";
 import {matriz_jur_ind} from "./table-matriz_jur_ind";
 import {parametros} from "./table-parametros";
 
@@ -63,7 +64,10 @@ export function emergeAppsigf<T extends Constructor<backendPlus.AppBackend>>(Bas
         var menus:backendPlus.MenuInfoBase[]=[];
         if(context.es.gabinete){
             menus.push(
-                {menuType:'menu', name:'preparacion', label:'preparación', menuContent:[
+                {menuType:'menu', name:'mi_jurisdiccion', label:'mi jurisdicción', menuContent:[
+                    {menuType:'table', name:'indicadores', table:'mi_jur_ind'} ,
+                ]},
+                {menuType:'menu', name:'comparacion', label:'comparación', menuContent:[
                     {menuType:'table', name:'matriz', table:'matriz_jur_ind'},
                     {menuType:'table', name:'indicadores'},
                     {menuType:'table', name:'jurisdicciones'},
@@ -73,7 +77,7 @@ export function emergeAppsigf<T extends Constructor<backendPlus.AppBackend>>(Bas
             menus.push(
                 {menuType:'menu', name:'configurar', menuContent:[
                     {menuType:'table', name:'parametros'} ,
-                    {menuType:'table', name:'usuario'   } ,
+                    {menuType:'table', name:'usuarios'   } ,
                 ]},
             )
         }
@@ -95,6 +99,7 @@ export function emergeAppsigf<T extends Constructor<backendPlus.AppBackend>>(Bas
             jurisdicciones,
             indicadores,
             jur_ind,
+            mi_jur_ind,
             matriz_jur_ind,
             usuarios,
             parametros,

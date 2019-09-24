@@ -35,7 +35,7 @@ login:
   userFieldName: usuario
   passFieldName: md5clave
   rolFieldName: rol
-  infoFieldList: [usuario, rol]
+  infoFieldList: [usuario, rol, jurisdiccion]
   activeClausule: activo
   plus:
     maxAge-5-sec: 5000    
