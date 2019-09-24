@@ -8,6 +8,7 @@ import {usuarios} from "./table-usuarios";
 import {jurisdicciones} from "./table-jurisdicciones";
 import {indicadores} from "./table-indicadores";
 import {jur_ind} from "./table-jur_ind";
+import {mi_jurisdiccion} from "./table-mi_jurisdiccion";
 import {mi_jur_ind} from "./table-mi_jur_ind";
 import {matriz_jur_ind} from "./table-matriz_jur_ind";
 import {parametros} from "./table-parametros";
@@ -67,8 +68,8 @@ export function emergeAppsigf<T extends Constructor<backendPlus.AppBackend>>(Bas
         var es:typeof cr.es={};
         if(req.user){
             es.admin       = req.user.rol=='admin';
-            es.gabinete    = req.user.rol=='gabinete'    || es.admin ;
-            es.coordinador = req.user.rol=='coordinador' || es.gabinete ;
+            es.coordinador = req.user.rol=='coordinador' || es.admin ;
+            es.gabinete    = req.user.rol=='gabinete'    || es.coordinador ;
         }
         return {es, ...context};
     }
@@ -80,9 +81,7 @@ export function emergeAppsigf<T extends Constructor<backendPlus.AppBackend>>(Bas
         var menus:backendPlus.MenuInfoBase[]=[];
         if(context.es.gabinete){
             menus.push(
-                {menuType:'menu', name:'mi_jurisdiccion', label:'mi jurisdicción', menuContent:[
-                    {menuType:'table', name:'indicadores', table:'mi_jur_ind'} ,
-                ]},
+                {menuType:'table', name:'mi_jurisdiccion', label:'mi jurisdicción'},
                 {menuType:'menu', name:'comparacion', label:'comparación', menuContent:[
                     {menuType:'table', name:'matriz', table:'matriz_jur_ind'},
                     {menuType:'table', name:'indicadores'},
@@ -119,6 +118,7 @@ export function emergeAppsigf<T extends Constructor<backendPlus.AppBackend>>(Bas
             jurisdicciones,
             indicadores,
             jur_ind,
+            mi_jurisdiccion,
             mi_jur_ind,
             matriz_jur_ind,
             usuarios,

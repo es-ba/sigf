@@ -3,16 +3,16 @@
 import {TableDefinition, TableContext} from "./types-sigf"
 
 export function jur_ind(context:TableContext):TableDefinition{
-    var admin = context.user.rol==='admin';
+    var admin = context.es.admin;
     return {
         name:'jur_ind',
         elementName:'indicador de la jurisdicción',
         editable:admin,
         fields:[
             {name:'jurisdiccion' , typeName:'text' , editable:false, title:'jurisdicción'},
-            {name:'indicador'    , typeName:'text' },
+            {name:'indicador'    , typeName:'text' , editable:false},
             {name:'factibilidad' , typeName:'text' },
-            {name:'fte'          , label:'fuente'  , typeName:'text'},
+            {name:'fte'          , typeName:'text' , label:'fuente'  },
             {name:'observaciones', typeName:'text' },
         ],
         foreignKeys:[

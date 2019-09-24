@@ -4,7 +4,7 @@ import {TableDefinition, TableContext} from "./types-sigf"
 import { FieldDefinition } from "backend-plus";
 
 export function matriz_jur_ind(context:TableContext):TableDefinition{
-    var admin = context.user.rol==='admin';
+    var admin = context.es.admin;
     var fields:FieldDefinition[] = [
         {name:'indicador'    , typeName:'text' },
         {name:'denominacion' , typeName:'text' },

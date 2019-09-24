@@ -3,7 +3,7 @@
 import {TableDefinition, TableContext} from "./types-sigf"
 
 export function parametros(context:TableContext):TableDefinition{
-    var admin = context.user.rol==='admin';
+    var admin = context.es.admin;
     return {
         name:'parametros',
         editable:admin,

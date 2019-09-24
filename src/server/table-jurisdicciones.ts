@@ -3,7 +3,7 @@
 import {TableDefinition, TableContext} from "./types-sigf"
 
 export function jurisdicciones(context:TableContext):TableDefinition{
-    var admin = context.user.rol==='admin';
+    var admin = context.es.admin;
     return {
         name:'jurisdicciones',
         elementName:'jurisdicción',

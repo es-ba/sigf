@@ -1,29 +1,22 @@
 "use strict";
 
 import {TableDefinition, TableContext} from "./types-sigf"
+import {jur_ind} from "./table-jur_ind";
 
 export function mi_jur_ind(context:TableContext):TableDefinition{
-    var admin = context.user.rol==='admin';
-    return {
-        name:'mi_jur_ind',
-        tableName: 'jur_ind',
-        elementName:'indicador de la jurisdicción',
-        editable:admin,
-        fields:[
-            {name:'jurisdiccion' , typeName:'text' , editable:false, title:'jurisdicción'},
-            {name:'indicador'    , typeName:'text' },
-            {name:'factibilidad' , typeName:'text' },
-            {name:'fte'          , label:'fuente'  , typeName:'text'},
-            {name:'observaciones', typeName:'text' },
-        ],
-        foreignKeys:[
-            {references:'jurisdicciones', fields:['jurisdiccion']},
-            {references:'indicadores'   , fields:['indicador']},
-        ],
-        primaryKey:['jurisdiccion','indicador'],
-        sql:{
-            insertIfNotUpdate:true,
-            from:`(
+    if(context.forDump){
+        context.user.jurisdiccion = context.user.jurisdiccion || '00';
+    }
+    var tableDef = jur_ind(context);
+    tableDef.name='mi_jur_ind';
+    tableDef.tableName='jur_ind';
+    tableDef.allow={update:context.es.coordinador};
+    tableDef.fields.forEach(function(fieldDef){
+        if(fieldDef.name!=='jurisdiccion' && fieldDef.name!=='indicador'){
+            fieldDef.editable=context.es.coordinador;
+        }
+    })
+    tableDef.sql!.from=`(
                 select *
                 from(
                     select jurisdiccion, indicador
@@ -32,8 +25,7 @@ export function mi_jur_ind(context:TableContext):TableDefinition{
                 ) x full outer join jur_ind using(jurisdiccion, indicador)
                 where jurisdiccion = ${context.be.db.quoteLiteral(context.user.jurisdiccion)}
             )
-            `
-        },
-        hiddenColumns:['jurisdiccion','jurisdicciones__nombre']
-    };
+            `;
+    tableDef.hiddenColumns=['jurisdiccion'];
+    return tableDef;
 }
