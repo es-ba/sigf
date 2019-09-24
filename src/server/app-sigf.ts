@@ -55,8 +55,11 @@ export function emergeAppsigf<T extends Constructor<backendPlus.AppBackend>>(Bas
         this.setStaticConfig(defConfig);
     }
     clientIncludes(req:Request, hideBEPlusInclusions:boolean){
-        return super.clientIncludes(req, hideBEPlusInclusions).concat([
-            {type:'js' , src:'client/client.js' },
+        return [
+            { type: 'js', module: 'react', modPath: 'umd', file:'react.development.js', fileProduction:'react.production.min.js' },
+            { type: 'js', module: 'react-dom', modPath: 'umd', file:'react-dom.development.js', fileProduction:'react-dom.production.min.js' },
+            ...super.clientIncludes(req, hideBEPlusInclusions),
+            {type:'js' , src:'client.js' },
             {type:'css', file:'styles.css'},
         ])
     }
@@ -85,7 +88,8 @@ export function emergeAppsigf<T extends Constructor<backendPlus.AppBackend>>(Bas
             menus.push(
                 {menuType:'table', name:'mi_jurisdiccion', label:'mi jurisdicción'},
                 {menuType:'menu', name:'comparacion', label:'comparación', menuContent:[
-                    {menuType:'table', name:'matriz', table:'matriz_jur_ind'},
+                    {menuType:'matriz', name:'matriz'},
+                    {menuType:'table', name:'tabla', table:'matriz_jur_ind'},
                     {menuType:'table', name:'indicadores'},
                     {menuType:'table', name:'jurisdicciones'},
                     {menuType:'table', name:'plana', table:'jur_ind'} ,

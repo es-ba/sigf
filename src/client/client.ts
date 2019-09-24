@@ -2,10 +2,15 @@ import {html} from "js-to-html";
 import * as TypedControls from "typed-controls";
 import * as bestGlobals from "best-globals";
 import * as likeAr from "like-ar";
+// import * as React from "react";
+// import * as ReactDOM from "react-dom";
 
 var datetime=bestGlobals.datetime;
 var changing=bestGlobals.changing;
 
+myOwn.wScreens.matriz=function(addrParams:any){
+    ReactDOM.render(React.createElement('h1',{},["Matriz de comparación"]), document.getElementById("main_layout"));
+};
 
 myOwn.clientSides.color_pick={
     update:function update(depot, fieldName){
