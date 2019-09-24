@@ -14,7 +14,7 @@ export function matriz_jur_ind(context:TableContext):TableDefinition{
         context.be.jurisdicciones.forEach(function(j){
             if(j.avance){
                 fields.push({name:`j_${j.jurisdiccion}`, label:j.nombre, typeName:'text'});
-                selectFields.push(`(select factibilidad from jur_ind where jur_ind.indicador=indicadores.indicador and jurisdiccion='${j.jurisdiccion}') as "j_${j.jurisdiccion}"`)
+                selectFields.push(`(select factibilidad from jur_ind where jur_ind.indicador=indicadores.indicador and jurisdiccion=${context.be.db.quoteLiteral(j.jurisdiccion)}) as ${context.be.db.quoteIdent('j_'+j.jurisdiccion)}`)
             }
         })
     }
