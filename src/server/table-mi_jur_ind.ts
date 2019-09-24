@@ -16,6 +16,7 @@ export function mi_jur_ind(context:TableContext):TableDefinition{
             fieldDef.editable=context.es.coordinador;
         }
     })
+    tableDef.sql!.isTable=false,
     tableDef.sql!.from=`(
                 select *
                 from(

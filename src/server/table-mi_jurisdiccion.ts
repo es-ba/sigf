@@ -25,6 +25,7 @@ export function mi_jurisdiccion(context:TableContext):TableDefinition{
         ],
         primaryKey:['jurisdiccion'],
         sql:{
+            isTable: false,
             where:`jurisdiccion = ${context.be.db.quoteLiteral(context.user.jurisdiccion)}`
         }
     };

@@ -5,6 +5,8 @@ import {ContextRoles} from "./types-sigf";
 import {defConfig} from "./def-config"
 
 import {usuarios} from "./table-usuarios";
+import {agrupacion_principal} from "./table-agrupacion_principal";
+import {dimensiones} from "./table-dimensiones";
 import {jurisdicciones} from "./table-jurisdicciones";
 import {indicadores} from "./table-indicadores";
 import {jur_ind} from "./table-jur_ind";
@@ -91,7 +93,9 @@ export function emergeAppsigf<T extends Constructor<backendPlus.AppBackend>>(Bas
             )
             menus.push(
                 {menuType:'menu', name:'configurar', menuContent:[
-                    {menuType:'table', name:'parametros'} ,
+                    {menuType:'table', name:'agrupacion_principal', label: 'agrupacion principal'} ,
+                    {menuType:'table', name:'dimensiones'} ,
+                    {menuType:'table', name:'parametros' } ,
                     {menuType:'table', name:'usuarios'   } ,
                 ]},
             )
@@ -115,6 +119,8 @@ export function emergeAppsigf<T extends Constructor<backendPlus.AppBackend>>(Bas
         super.prepareGetTables();
         var newList={
             ...this.getTableDefinition,
+            agrupacion_principal,
+            dimensiones,
             jurisdicciones,
             indicadores,
             jur_ind,
