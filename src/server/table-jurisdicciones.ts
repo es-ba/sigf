@@ -8,15 +8,11 @@ export function jurisdicciones(context:TableContext):TableDefinition{
     return {
         name:'jurisdicciones',
         elementName:'jurisdicción',
-        allow: {
-            delete: admin,
-            update: coordinador,
-            insert: admin
-        },
+        editable: admin,
         fields:[
-            {name:'jurisdiccion', typeName:'text', editable:admin, title:'jurisdicción'},
-            {name:'nombre'      , typeName:'text', editable:admin, isName:true},
-            {name:'iso3166_2'   , typeName:'text', editable:admin},
+            {name:'jurisdiccion', typeName:'text' ,editable: admin, title:'jurisdicción'},
+            {name:'nombre'      , typeName:'text' ,editable: admin, isName:true},
+            {name:'iso3166_2'   , typeName:'text' ,editable: admin},
             {name:'avance'      , typeName:'text' },
             {name:'responsables', typeName:'text' },
             {name:'telefono'    , typeName:'text' },
