@@ -36,17 +36,10 @@ export function indicadores(context:TableContext):TableDefinition{
             {table: 'jur_ind', fields:['indicador'], abr:'J', label:'jurisdicciones'},
         ],
         sql:{
-            fields:{
-                autonomia:{
-                    expr:`(select a.denominacion from agrupacion_principal a inner join dimensiones d using (agrupacion_principal) where d.dimension = indicadores.dimension)`
-                },
-                orden_autonomia:{
-                    expr:`(select a.orden from agrupacion_principal a inner join dimensiones d using (agrupacion_principal) where d.dimension = indicadores.dimension)`
-                },
-                orden_dimension:{
-                    expr:`(select d.orden from dimensiones d where d.dimension = indicadores.dimension)`
-                }       
-            }
+            from: `(
+                select i.*, a.denominacion as autonomia, a.orden as orden_autonomia, d.orden as orden_dimension
+                    from indicadores i inner join dimensiones d using (dimension) inner join agrupacion_principal a using (agrupacion_principal)
+            )`
         },
         hiddenColumns:['indicador','orden_autonomia', 'orden_dimension','agrupacion_principal','dimension','orden'],
         sortColumns:[{column:'orden_autonomia'},{column:'orden_dimension'},{column:'orden'}]
