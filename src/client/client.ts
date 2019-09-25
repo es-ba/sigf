@@ -8,8 +8,15 @@ import * as likeAr from "like-ar";
 var datetime=bestGlobals.datetime;
 var changing=bestGlobals.changing;
 
-myOwn.wScreens.matriz=function(addrParams:any){
-    ReactDOM.render(React.createElement('h1',{},["Matriz de comparación"]), document.getElementById("main_layout"));
+myOwn.wScreens.matriz=async function(addrParams:any){
+    var result = await myOwn.ajax.matriz_traer({});
+    ReactDOM.render(
+        React.createElement('div',{},[
+            React.createElement('h1',{},["Matriz de comparación"]),
+            React.createElement('pre',{},[JSON.stringify(result,null,'  ')]),
+        ])
+        , document.getElementById("main_layout")
+    );
 };
 
 myOwn.clientSides.color_pick={
