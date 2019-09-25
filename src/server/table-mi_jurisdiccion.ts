@@ -10,9 +10,6 @@ export function mi_jurisdiccion(context:TableContext):TableDefinition{
     var tableDef = jurisdicciones(context);
     tableDef.name='mi_jurisdiccion';
     tableDef.tableName='jurisdicciones';
-    tableDef.allow={
-        update:context.es.coordinador,
-    }
     tableDef.detailTables=[
         {table: 'mi_jur_ind', fields:['jurisdiccion'], abr:'I', label:'indicadores'},
     ];
