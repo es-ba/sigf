@@ -1,6 +1,13 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
+type JurInd = {
+    jurisdiccion:string,
+    factibilidad:string,
+    fte:string,
+    observaciones:string,
+}
+
 type Jurisdiccion = {
     jurisdiccion:string,
     nombre:string
@@ -10,7 +17,8 @@ type Indicador = {
     indicador:string,
     denominacion:string,
     fte:string,
-    um:string
+    um:string,
+    jurisdicciones:JurInd[]
 }
 
 type Dimension = {
@@ -41,25 +49,36 @@ const Botonera = (props:{autonomias:AgrupacionPrincipal[]}) => (
     </div>
 )
 
+const TdJurInd = (props:{jurind:JurInd}) =>
+    <td className="jurind" jurind-factibilidad={props.jurind.factibilidad} title={props.jurind.jurisdiccion+": "+(props.jurind.fte||'')+" "+(props.jurind.observaciones||'')}>
+        {props.jurind.factibilidad}
+    </td>
+
 const TituloIndicador = (props:{indicador:Indicador})=>(
-    <tr className="titulo-indicador">
-        <td className="nombre-indicador">{props.indicador.denominacion}</td>
-    </tr>
+    <td className="nombre-indicador">{props.indicador.denominacion}</td>
 )
 
 const SeccionIndicador = (props:{indicador:Indicador})=>(
-    <TituloIndicador indicador={props.indicador}/>
-)
-
-const TituloDimension = (props:{dimension:Dimension, autonomia:AgrupacionPrincipal})=>(
-    <tr className="titulo-dimension">
-        <td className="nombre-dimension"    style={{color:props.autonomia.color}}>{props.dimension.denominacion}</td>
+    <tr className="titulo-indicador">
+        <TituloIndicador indicador={props.indicador}/>
+        {props.indicador.jurisdicciones.map( jurind=>
+            <TdJurInd jurind={jurind}/>
+        )}
     </tr>
 )
 
-const SeccionDimension = (props:{dimension:Dimension, autonomia:AgrupacionPrincipal})=>(
+const TituloDimension = (props:{dimension:Dimension, autonomia:AgrupacionPrincipal, jurisdicciones:Jurisdiccion[]})=>(
+    <tr className="titulo-dimension">
+        <td className="nombre-dimension"    style={{color:props.autonomia.color}}>{props.dimension.denominacion}</td>
+        {props.jurisdicciones.map( _ =>
+            <td className="jurind"></td>
+        )}
+    </tr>
+)
+
+const SeccionDimension = (props:{dimension:Dimension, autonomia:AgrupacionPrincipal, jurisdicciones:Jurisdiccion[]})=>(
     <>
-        <TituloDimension dimension={props.dimension} autonomia={props.autonomia}/>
+        <TituloDimension dimension={props.dimension} autonomia={props.autonomia} jurisdicciones={props.jurisdicciones}/>
         {props.dimension.indicadores.map( indicador =>
             <SeccionIndicador indicador={indicador}/>
         )}
@@ -72,11 +91,11 @@ const TituloAutonomia = (props:{autonomia:AgrupacionPrincipal})=>(
     </tr>
 )
 
-const SeccionAutonomia = (props:{autonomia:AgrupacionPrincipal})=>(
+const SeccionAutonomia = (props:{autonomia:AgrupacionPrincipal, jurisdicciones:Jurisdiccion[]})=>(
     <>
         <TituloAutonomia autonomia={props.autonomia}/>
         {props.autonomia.dimensiones.map( dimension =>
-            <SeccionDimension dimension={dimension} autonomia={props.autonomia}/>
+            <SeccionDimension dimension={dimension} autonomia={props.autonomia} jurisdicciones={props.jurisdicciones}/>
         )}
     </>
 )
@@ -98,7 +117,7 @@ const ListaIndicadores = (props:{autonomias:AgrupacionPrincipal[], jurisdiccione
         </thead>
         <tbody>
         {props.autonomias.map( autonomia =>
-            <SeccionAutonomia autonomia={autonomia}/>
+            <SeccionAutonomia autonomia={autonomia} jurisdicciones={props.jurisdicciones}/>
         )}
         </tbody>
     </table>

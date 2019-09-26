@@ -1,7 +1,21 @@
+body
+  background-color #f8f8f8
+
 .matriz-comparacion
   display grid
   grid-template-columns 100px 1fr
   grid-gap 10px
+  table
+    border-collapse collapse
+  thead
+    th
+      background-color #E4E4E4
+      position sticky
+      top 0
+    th.jurisdiccion-nombre
+      background-color #E4E4E4
+      position sticky
+      top 16px
 
 .botonera
   grid-column 1
@@ -28,8 +42,18 @@
   top 112px
   bottom 0px
 
-th.jurisdiccion
+th.jurisdiccion-nombre
   width 52px
+
+@media screen and (max-width: 1200px)
+  th.jurisdiccion-nombre
+    width 32px
+    font-size 8px
+
+@media screen and (min-width: 1200px) and (max-width: 1400px)
+  th.jurisdiccion-nombre
+    width 42px
+    font-size 9px
 
 .jurisdiccion-nombre
   font-size 10px
@@ -37,18 +61,20 @@ th.jurisdiccion
 
 .nombre-autonomia
   position sticky
-  top 0
+  top 36px
   font-size 22px
   padding-left 12px
 
 .nombre-dimension
   font-size 16px
-  weight bold
+  font-weight bold
   padding-left 48px
 
 .nombre-indicador
   font-size 14px
   padding-left 96px
+  padding-top 3px
+  padding-bottom 4px
 
 .boton-autonomia
   display block
@@ -60,3 +86,12 @@ th.jurisdiccion
   td
     min-height 28px
     height 28px
+    vertical-align middle
+    border-left 1px solid #e8e8e8
+
+td.jurind
+  text-align center
+
+tr:nth-child(even)
+  td
+    background-color #f0f0f0
