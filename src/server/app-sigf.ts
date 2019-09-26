@@ -64,7 +64,7 @@ export function emergeAppsigf<T extends Constructor<backendPlus.AppBackend>>(Bas
             {type:'js' , src:'matriz.js' },
             {type:'js' , src:'client.js' },
             {type:'css', file:'styles.css'},
-        ])
+        ];
     }
     getContextForDump(){
         return {es:{admin:true, gabinete:true, coordinador:true}, ...super.getContextForDump()};
@@ -90,9 +90,9 @@ export function emergeAppsigf<T extends Constructor<backendPlus.AppBackend>>(Bas
         if(context.es.gabinete){
             menus.push(
                 {menuType:'table', name:'mi_jurisdiccion', label:'mi jurisdicción'},
-                {menuType:'menu', name:'comparacion', label:'comparación', menuContent:[
-                    // {menuType:'matriz', name:'matriz'},
-                    {menuType:'table', name:'tabla', table:'matriz_jur_ind'},
+                {menuType:'menu', name:'comparacion', label:'comparación', selectedByDefault:true, menuContent:[
+                    {menuType:'matriz', name:'matriz'},
+                    {menuType:'table', name:'tabla', table:'matriz_jur_ind', selectedByDefault:true},
                     {menuType:'table', name:'indicadores'},
                     {menuType:'table', name:'jurisdicciones'},
                     {menuType:'table', name:'plana', table:'jur_ind'} ,

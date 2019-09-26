@@ -26,6 +26,7 @@ export function matriz_jur_ind(context:TableContext):TableDefinition{
     return {
         name:'matriz_jur_ind',
         elementName:'indicador de la jurisdicción',
+        title:'matriz de comparación',
         editable:false,
         fields:fields,
         foreignKeys:[

@@ -1,8 +1,7 @@
 {
   "name": "sigf",
   "description": "preparando un nuevo sistema de indicadores de género",
-  "version": "0.1.1",
-  "private": true,
+  "version": "0.1.2",
   "license": "MIT",
   "main": "dist/server/app-sigf.js",
   "types": "dist/server/app-sigf.d.ts",
