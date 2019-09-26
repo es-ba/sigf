@@ -24,7 +24,7 @@ export const Proceduressigf : ProcedureDef[] = [
                             FROM indicadores i, jurisdicciones j
                             WHERE avance is not null
                     ) ji_total LEFT JOIN jur_ind USING (indicador, jurisdiccion)
-                    WHERE i.indicador = ji_total.indicador
+                    WHERE ji_total.indicador = i.indicador
             `;
             var sql3=`
                 SELECT *, ${json(sql4,'jurisdiccion')} as jurisdicciones 
@@ -34,7 +34,7 @@ export const Proceduressigf : ProcedureDef[] = [
             var sql2=`
                 SELECT *, ${json(sql3,'orden, indicador')} as indicadores
                     FROM dimensiones d 
-                    WHERE a.agrupacion_principal = d.agrupacion_principal
+                    WHERE d.agrupacion_principal = a.agrupacion_principal
             `;
             var sql1=`
                 SELECT *, ${json(sql2,'orden, dimension')} as dimensiones

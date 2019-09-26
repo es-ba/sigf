@@ -1,22 +1,15 @@
 import {html} from "js-to-html";
 import * as TypedControls from "typed-controls";
 import * as bestGlobals from "best-globals";
+import {mostrar} from "./matriz";
 import * as likeAr from "like-ar";
-// import * as React from "react";
-// import * as ReactDOM from "react-dom";
 
 var datetime=bestGlobals.datetime;
 var changing=bestGlobals.changing;
 
 myOwn.wScreens.matriz=async function(addrParams:any){
     var result = await myOwn.ajax.matriz_traer({});
-    ReactDOM.render(
-        React.createElement('div',{},[
-            React.createElement('h1',{},["Matriz de comparación"]),
-            React.createElement('pre',{},[JSON.stringify(result,null,'  ')]),
-        ])
-        , document.getElementById("main_layout")
-    );
+    mostrar(result);
 };
 
 myOwn.clientSides.color_pick={

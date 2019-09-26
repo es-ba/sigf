@@ -19,11 +19,7 @@ export function mi_jur_ind(context:TableContext):TableDefinition{
     tableDef.sql!.isTable=false,
     tableDef.sql!.from=`(
                 select *
-                from(
-                    select jurisdiccion, indicador
-                        from jurisdicciones, indicadores
-                        where avance is not null
-                ) x full outer join jur_ind using(jurisdiccion, indicador)
+                from ${tableDef.sql!.from} x
                 where jurisdiccion = ${context.be.db.quoteLiteral(context.user.jurisdiccion)}
             )
             `;

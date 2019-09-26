@@ -2,7 +2,8 @@
     "compilerOptions": {
         "outDir": "../../dist/client",
         "typeRoots" : ["node_modules/@types", "../../node_modules/types.d.ts/modules"],
-        "lib": ["es5", "dom"]
+        "lib": ["es5", "dom"],
+        "jsx": "react"
     },
     "include":[
         "."

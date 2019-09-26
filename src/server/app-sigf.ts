@@ -12,6 +12,7 @@ import {indicadores} from "./table-indicadores";
 import {jur_ind} from "./table-jur_ind";
 import {mi_jurisdiccion} from "./table-mi_jurisdiccion";
 import {mi_jur_ind} from "./table-mi_jur_ind";
+import {jur_ind_desde_indicador} from "./table-jur_ind_desde_indicador";
 import {matriz_jur_ind} from "./table-matriz_jur_ind";
 import {parametros} from "./table-parametros";
 import {Client} from "pg-promise-strict";
@@ -59,6 +60,8 @@ export function emergeAppsigf<T extends Constructor<backendPlus.AppBackend>>(Bas
             { type: 'js', module: 'react', modPath: 'umd', file:'react.development.js', fileProduction:'react.production.min.js' },
             { type: 'js', module: 'react-dom', modPath: 'umd', file:'react-dom.development.js', fileProduction:'react-dom.production.min.js' },
             ...super.clientIncludes(req, hideBEPlusInclusions),
+            {type:'js' , src:'adapt.js' },
+            {type:'js' , src:'matriz.js' },
             {type:'js' , src:'client.js' },
             {type:'css', file:'styles.css'},
         ])
@@ -88,7 +91,7 @@ export function emergeAppsigf<T extends Constructor<backendPlus.AppBackend>>(Bas
             menus.push(
                 {menuType:'table', name:'mi_jurisdiccion', label:'mi jurisdicción'},
                 {menuType:'menu', name:'comparacion', label:'comparación', menuContent:[
-                    {menuType:'matriz', name:'matriz'},
+                    // {menuType:'matriz', name:'matriz'},
                     {menuType:'table', name:'tabla', table:'matriz_jur_ind'},
                     {menuType:'table', name:'indicadores'},
                     {menuType:'table', name:'jurisdicciones'},
@@ -109,7 +112,7 @@ export function emergeAppsigf<T extends Constructor<backendPlus.AppBackend>>(Bas
         }
         return <backendPlus.MenuDefinition>menu;
     }
-    async leerJurisdiccionesActivas(client:Client){
+    async leerJurisdiccionesActivas(client?:Client){
         var be=this;
         if(client){
             be.jurisdicciones = (await client.query('select * from jurisdicciones where avance is not null order by jurisdiccion').fetchAll()).rows;
@@ -130,6 +133,7 @@ export function emergeAppsigf<T extends Constructor<backendPlus.AppBackend>>(Bas
             jur_ind,
             mi_jurisdiccion,
             mi_jur_ind,
+            jur_ind_desde_indicador,
             matriz_jur_ind,
             usuarios,
             parametros,
