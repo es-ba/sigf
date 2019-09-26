@@ -1,11 +1,25 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
+type Indicador = {
+    indicador:string,
+    denominacion:string,
+    fte:string,
+    um:string
+}
+
+type Dimension = {
+    dimension:string,
+    denominacion:string,
+    indicadores:Indicador[]
+}
+
 type AgrupacionPrincipal = {
     denominacion:string, 
     agrupacion_principal:string, 
     icono:string, 
-    color:string
+    color:string,
+    dimensiones:Dimension[]
 };
 
 const BotonAutonomia = (props:{autonomia:AgrupacionPrincipal}) => (
@@ -22,6 +36,35 @@ const Botonera = (props:{autonomias:AgrupacionPrincipal[]}) => (
     </div>
 )
 
+const TituloIndicador = (props:{indicador:Indicador})=>(
+    <div className="titulo-indicador">
+        <span className="nombre-indicador">{props.indicador.denominacion}</span>
+    </div>
+)
+
+const SeccionIndicador = (props:{indicador:Indicador})=>(
+    <div className="seccion-dimension">
+        <TituloIndicador indicador={props.indicador}/>
+    </div>
+)
+
+const TituloDimension = (props:{dimension:Dimension})=>(
+    <div className="titulo-dimension">
+        <span className="nombre-dimension">{props.dimension.denominacion}</span>
+    </div>
+)
+
+const SeccionDimension = (props:{dimension:Dimension})=>(
+    <div className="seccion-dimension">
+        <TituloDimension dimension={props.dimension}/>
+        <div className="seccion-indicadores">
+            {props.dimension.indicadores.map( indicador =>
+                <SeccionIndicador indicador={indicador}/>
+            )}
+        </div>
+    </div>
+)
+
 const TituloAutonomia = (props:{autonomia:AgrupacionPrincipal})=>(
     <div style={{backgroundColor:props.autonomia.color}}>
         <span className="nombre-autonomia">{props.autonomia.denominacion}</span>
@@ -31,7 +74,11 @@ const TituloAutonomia = (props:{autonomia:AgrupacionPrincipal})=>(
 const SeccionAutonomia = (props:{autonomia:AgrupacionPrincipal})=>(
     <div className="seccion-autonomia">
         <TituloAutonomia autonomia={props.autonomia}/>
-        <div>divisiones...</div>
+        <div className="seccion-dimensiones">
+            {props.autonomia.dimensiones.map( dimension =>
+                <SeccionDimension dimension={dimension}/>
+            )}
+        </div>
     </div>
 )
 
