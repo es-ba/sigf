@@ -91,8 +91,8 @@ export function emergeAppsigf<T extends Constructor<backendPlus.AppBackend>>(Bas
             menus.push(
                 {menuType:'table', name:'mi_jurisdiccion', label:'mi jurisdicción'},
                 {menuType:'menu', name:'comparacion', label:'comparación', selectedByDefault:true, menuContent:[
-                    {menuType:'matriz', name:'matriz'},
-                    {menuType:'table', name:'tabla', table:'matriz_jur_ind', selectedByDefault:true},
+                    {menuType:'matriz', name:'matriz', selectedByDefault:true},
+                    {menuType:'table', name:'tabla', table:'matriz_jur_ind'},
                     {menuType:'table', name:'indicadores'},
                     {menuType:'table', name:'jurisdicciones'},
                     {menuType:'table', name:'plana', table:'jur_ind'} ,
